@@ -3,16 +3,17 @@
 
 #include <vector>
 #include <fstream>
+#include <string>
+
 #include "Equipment.h"
 #include "MaintenanceStrategy.h"
 
 class Simulator {
 private:
     std::vector<Equipment*> equipos;
+    std::ofstream archivo;
 
-    std::ofstream archivo; // para reporte txt
 
-    // algoritmo propio (QuickSort)
     void quickSort(int low, int high);
     int partition(int low, int high);
 
@@ -21,11 +22,12 @@ public:
 
     void simular();
 
-    void calcularPrioridades();
     void degradarEquipos();
+    void calcularPrioridades();
     void ordenarEquipos();
-
     void aplicarMantenimiento();
+
+    Equipment* buscarEquipoPorId(const std::string& id);
 };
 
 #endif

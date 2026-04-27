@@ -1,6 +1,3 @@
-//
-// Created by jimen on 27/4/2026.
-//
 #include "Simulator.h"
 #include "PreventiveMaintenance.h"
 #include "CorrectiveMaintenance.h"
@@ -9,12 +6,10 @@
 #include <iostream>
 #include <algorithm>
 
-// Agregar equipo
 void Simulator::agregarEquipo(Equipment* eq) {
     equipos.push_back(eq);
 }
 
-// Simulación principal (30 días)
 void Simulator::simular() {
 
     archivo.open("reporte.txt");
@@ -40,7 +35,6 @@ void Simulator::simular() {
     archivo.close();
 }
 
-// Degradación diaria
 void Simulator::degradarEquipos() {
     for (auto& eq : equipos) {
         eq->degradar();
@@ -48,21 +42,18 @@ void Simulator::degradarEquipos() {
     }
 }
 
-// Calcular prioridad
 void Simulator::calcularPrioridades() {
     for (auto& eq : equipos) {
         eq->calcularPrioridad();
     }
 }
 
-// Ordenar equipos por prioridad (mayor a menor)
 void Simulator::ordenarEquipos() {
     if (!equipos.empty()) {
         quickSort(0, equipos.size() - 1);
     }
 }
 
-// QuickSort
 void Simulator::quickSort(int low, int high) {
     if (low < high) {
         int pi = partition(low, high);
@@ -72,13 +63,11 @@ void Simulator::quickSort(int low, int high) {
 }
 
 int Simulator::partition(int low, int high) {
-
     double pivot = equipos[high]->getPrioridad();
     int i = low - 1;
 
     for (int j = low; j < high; j++) {
-
-        if (equipos[j]->getPrioridad() > pivot) { // descendente
+        if (equipos[j]->getPrioridad() > pivot) {
             i++;
             std::swap(equipos[i], equipos[j]);
         }
@@ -88,7 +77,6 @@ int Simulator::partition(int low, int high) {
     return i + 1;
 }
 
-// Aplicar mantenimiento (top 3)
 void Simulator::aplicarMantenimiento() {
 
     if (equipos.empty()) {
@@ -100,7 +88,6 @@ void Simulator::aplicarMantenimiento() {
         Equipment* eq = equipos[i];
         MaintenanceStrategy* estrategia;
 
-        // decisión automática
         if (eq->getIncidencias() > 2) {
             estrategia = new CorrectiveMaintenance();
         } else {
@@ -117,4 +104,26 @@ void Simulator::aplicarMantenimiento() {
 
         delete estrategia;
     }
+}
+
+Equipment* Simulator::buscarEquipoPorId(const std::string& id) {
+
+    int left = 0;
+    int right = equipos.size() - 1;
+
+    while (left <= right) {
+        int mid = (left + right) / 2;
+
+        if (equipos[mid]->getId() == id) {
+            return equipos[mid];
+        }
+
+        if (equipos[mid]->getId() < id) {
+            left = mid + 1;
+        } else {
+            right = mid - 1;
+        }
+    }
+
+    return nullptr;
 }
