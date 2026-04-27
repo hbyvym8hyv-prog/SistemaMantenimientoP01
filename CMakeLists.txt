@@ -12,5 +12,7 @@ set(SOURCES
         src/PreventiveMaintenance.cpp
         src/CorrectiveMaintenance.cpp
         src/Simulator.cpp
+        include/Incident.h
+        src/Incident.cpp
 )
 add_executable(ProyectoMantenimiento ${SOURCES})
