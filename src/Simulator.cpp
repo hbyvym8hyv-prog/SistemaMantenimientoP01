@@ -4,17 +4,29 @@
 #include "Simulator.h"
 #include "PreventiveMaintenance.h"
 #include "CorrectiveMaintenance.h"
-#include <iostream>
+#include "Exceptions.h"
 
-// agregar equipos
+#include <iostream>
+#include <algorithm>
+
+// Agregar equipo
 void Simulator::agregarEquipo(Equipment* eq) {
     equipos.push_back(eq);
 }
 
-// simular 30 días
+// Simulación principal (30 días)
 void Simulator::simular() {
+
+    archivo.open("reporte.txt");
+
+    if (!archivo.is_open()) {
+        throw FileException("No se pudo abrir el archivo de reporte");
+    }
+
     for (int dia = 1; dia <= 30; dia++) {
+
         std::cout << "Dia " << dia << std::endl;
+        archivo << "Dia " << dia << std::endl;
 
         degradarEquipos();
         calcularPrioridades();
@@ -22,10 +34,13 @@ void Simulator::simular() {
         aplicarMantenimiento();
 
         std::cout << "------------------------" << std::endl;
+        archivo << "------------------------" << std::endl;
     }
+
+    archivo.close();
 }
 
-// degradación diaria
+// Degradación diaria
 void Simulator::degradarEquipos() {
     for (auto& eq : equipos) {
         eq->degradar();
@@ -33,19 +48,21 @@ void Simulator::degradarEquipos() {
     }
 }
 
-// cálculo de prioridad
+// Calcular prioridad
 void Simulator::calcularPrioridades() {
     for (auto& eq : equipos) {
         eq->calcularPrioridad();
     }
 }
 
-// quicksort
+// Ordenar equipos por prioridad (mayor a menor)
 void Simulator::ordenarEquipos() {
-    if (!equipos.empty())
+    if (!equipos.empty()) {
         quickSort(0, equipos.size() - 1);
+    }
 }
 
+// QuickSort
 void Simulator::quickSort(int low, int high) {
     if (low < high) {
         int pi = partition(low, high);
@@ -55,11 +72,13 @@ void Simulator::quickSort(int low, int high) {
 }
 
 int Simulator::partition(int low, int high) {
+
     double pivot = equipos[high]->getPrioridad();
     int i = low - 1;
 
     for (int j = low; j < high; j++) {
-        if (equipos[j]->getPrioridad() > pivot) { // mayor a menor
+
+        if (equipos[j]->getPrioridad() > pivot) { // descendente
             i++;
             std::swap(equipos[i], equipos[j]);
         }
@@ -69,14 +88,19 @@ int Simulator::partition(int low, int high) {
     return i + 1;
 }
 
-// aplicar mantenimiento a top 3
+// Aplicar mantenimiento (top 3)
 void Simulator::aplicarMantenimiento() {
 
-    for (int i = 0; i < 3 && i < equipos.size(); i++) {
-        Equipment* eq = equipos[i];
+    if (equipos.empty()) {
+        throw InvalidOperationException("No hay equipos para procesar");
+    }
 
+    for (int i = 0; i < 3 && i < equipos.size(); i++) {
+
+        Equipment* eq = equipos[i];
         MaintenanceStrategy* estrategia;
 
+        // decisión automática
         if (eq->getIncidencias() > 2) {
             estrategia = new CorrectiveMaintenance();
         } else {
@@ -85,9 +109,11 @@ void Simulator::aplicarMantenimiento() {
 
         estrategia->aplicar(*eq);
 
-        std::cout << "Atendido: " << eq->getId()
-                  << " Prioridad: " << eq->getPrioridad()
-                  << std::endl;
+        std::string linea = "Atendido: " + eq->getId() +
+                            " | Prioridad: " + std::to_string(eq->getPrioridad());
+
+        std::cout << linea << std::endl;
+        archivo << linea << std::endl;
 
         delete estrategia;
     }
