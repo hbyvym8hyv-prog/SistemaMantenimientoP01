@@ -20,5 +20,6 @@ set(SOURCES
         src/CorrectiveMaintenance.cpp
         include/Simulator.h
         src/Simulator.cpp
+        src/main.cpp
 )
 add_executable(ProyectoMantenimiento ${SOURCES})
