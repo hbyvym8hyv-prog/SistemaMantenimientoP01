@@ -21,5 +21,6 @@ set(SOURCES
         include/Simulator.h
         src/Simulator.cpp
         src/main.cpp
+        include/Exceptions.h
 )
 add_executable(ProyectoMantenimiento ${SOURCES})
