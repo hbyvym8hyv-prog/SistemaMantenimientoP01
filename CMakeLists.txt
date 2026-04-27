@@ -10,9 +10,13 @@ set(SOURCES
         src/Equipment.cpp
         src/Incident.cpp
         src/PreventiveMaintenance.cpp
-        src/CorrectiveMaintenance.cpp
         src/Simulator.cpp
         include/Incident.h
         src/Incident.cpp
+        include/MaintenanceStrategy.h
+        include/PreventiveMaintenance.h
+        src/PreventiveMaintenance.cpp
+        include/CorrectiveMaintenance.h
+        src/CorrectiveMaintenance.cpp
 )
 add_executable(ProyectoMantenimiento ${SOURCES})

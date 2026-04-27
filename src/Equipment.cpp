@@ -1,17 +1,17 @@
-//
-// Created by jimen on 26/4/2026.
-//
 #include "Equipment.h"
 
 Equipment::Equipment(const std::string& id, int criticidad, double estado)
-        : id(id), criticidad(criticidad), estado(estado),
-          incidenciasActivas(0), tiempoInactivo(0), prioridad(0) {}
+        : id(id),
+          criticidad(criticidad),
+          estado(estado),
+          incidenciasActivas(0),
+          tiempoInactivo(0),
+          prioridad(0) {}
 
 void Equipment::degradar() {
     estado -= 2;
     if (estado < 0) estado = 0;
 }
-
 void Equipment::agregarIncidencia() {
     incidenciasActivas++;
 }
@@ -34,18 +34,34 @@ void Equipment::calcularPrioridad() {
                 (tiempoInactivo * 0.2);
 }
 
+
 std::string Equipment::getId() const {
     return id;
 }
 
-double Equipment::getPrioridad() const {
-    return prioridad;
+int Equipment::getCriticidad() const {
+    return criticidad;
+}
+
+double Equipment::getEstado() const {
+    return estado;
 }
 
 int Equipment::getIncidencias() const {
     return incidenciasActivas;
 }
 
+int Equipment::getTiempoInactivo() const {
+    return tiempoInactivo;
+}
+
+double Equipment::getPrioridad() const {
+    return prioridad;
+}
+
 void Equipment::setEstado(double nuevoEstado) {
     estado = nuevoEstado;
+
+    if (estado > 100) estado = 100;
+    if (estado < 0) estado = 0;
 }

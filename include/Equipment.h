@@ -1,12 +1,10 @@
 //
 // Created by jimen on 26/4/2026.
 //
-
 #ifndef EQUIPMENT_H
 #define EQUIPMENT_H
 
 #include <string>
-#include <vector>
 
 class Incident; // forward declaration
 
@@ -15,6 +13,7 @@ private:
     std::string id;
     int criticidad;
     double estado;
+
     int incidenciasActivas;
     int tiempoInactivo;
     double prioridad;
@@ -30,14 +29,14 @@ public:
 
     void calcularPrioridad();
 
-    // getters
     std::string getId() const;
-    double getPrioridad() const;
+    int getCriticidad() const;
+    double getEstado() const;
     int getIncidencias() const;
+    int getTiempoInactivo() const;
+    double getPrioridad() const;
 
-    // setters
     void setEstado(double nuevoEstado);
-
 };
 
 #endif
