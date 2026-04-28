@@ -1,0 +1,122 @@
+Sistema de Planificación Inteligente de Mantenimiento
+- Descripción
+
+Este proyecto implementa un sistema en C++ capaz de simular la planificación automática de mantenimiento de equipos de laboratorio académico durante un periodo de 30 días.
+
+El sistema toma decisiones inteligentes bajo restricciones reales, como la disponibilidad limitada de técnicos, priorizando los equipos más críticos para reducir el riesgo operativo.
+
+-Objetivo
+
+Desarrollar una solución que no solo almacene información, sino que:
+
+Evalúe el estado de los equipos
+Calcule prioridades dinámicamente
+Tome decisiones automáticas
+Simule escenarios reales
+- Tecnologías utilizadas
+C++ (C++17)
+CLion
+GitHub
+- Funcionalidades principales
+
+✔ Simulación de 30 días
+✔ Degradación progresiva de equipos
+✔ Cálculo de prioridad dinámica
+✔ Ordenamiento con algoritmo propio (QuickSort)
+✔ Selección de los 3 equipos más críticos
+✔ Aplicación de mantenimiento automático
+✔ Generación de reportes en archivo TXT
+✔ Manejo de excepciones personalizadas
+✔ Búsqueda binaria optimizada
+
+-Fórmula de prioridad
+
+La prioridad de cada equipo se calcula mediante:
+
+prioridad = (criticidad * 0.5) +
+            (incidencias * 0.3) +
+            (tiempo_inactivo * 0.2)
+- Diseño del sistema
+Clases principales
+Equipment: representa cada equipo del laboratorio
+Incident: representa incidencias asociadas a equipos
+Simulator: controla la lógica de simulación
+MaintenanceStrategy (abstracta): define comportamiento de mantenimiento
+PreventiveMaintenance: mantenimiento preventivo
+CorrectiveMaintenance: mantenimiento correctivo
+- Relaciones y conceptos aplicados
+Programación orientada a objetos (POO)
+Encapsulamiento
+Herencia
+Polimorfismo
+Upcasting
+Downcasting seguro (dynamic_cast)
+Dependencia mutua entre clases
+-Patrón de diseño
+
+Se implementó el patrón Strategy, permitiendo aplicar diferentes tipos de mantenimiento según el estado del equipo.
+
+Esto permite que el sistema sea flexible y extensible sin modificar el código base.
+
+- Algoritmos implementados
+ QuickSort (manual): para ordenar equipos por prioridad
+ Búsqueda binaria: para encontrar equipos por ID
+- Estructura del proyecto
+ProyectoMantenimiento/
+│
+├── include/
+│   ├── Equipment.h
+│   ├── Incident.h
+│   ├── MaintenanceStrategy.h
+│   ├── PreventiveMaintenance.h
+│   ├── CorrectiveMaintenance.h
+│   ├── Simulator.h
+│   ├── Exceptions.h
+│
+├── src/
+│   ├── Equipment.cpp
+│   ├── Incident.cpp
+│   ├── PreventiveMaintenance.cpp
+│   ├── CorrectiveMaintenance.cpp
+│   ├── Simulator.cpp
+│   ├── main.cpp
+│
+├── CMakeLists.txt
+├── README.md
+- Ejecución del proyecto
+Compilar el proyecto en CLion
+Ejecutar el archivo main.cpp
+Revisar la salida en consola
+Ver el archivo generado:
+reporte.txt
+- Resultados
+
+El sistema genera un reporte diario que incluye:
+
+Equipos atendidos
+Prioridades calculadas
+Estado del sistema
+Evolución de la simulación
+-Manejo de errores
+
+Se implementaron excepciones personalizadas:
+
+FileException
+InvalidFormatException
+InvalidOperationException
+
+Estas permiten manejar errores de forma controlada y mejorar la robustez del sistema.
+
+- Datos de prueba
+100 equipos generados automáticamente
+300 incidencias distribuidas aleatoriamente
+-Autora
+
+Jimena Valencia Montero
+
+-Estado del proyecto
+
+✔ Completo
+✔ Funcional
+✔ Cumple todos los requerimientos del proyecto
+✔ Listo para evaluación

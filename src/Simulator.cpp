@@ -4,7 +4,6 @@
 #include "Exceptions.h"
 
 #include <iostream>
-#include <algorithm>
 
 void Simulator::agregarEquipo(Equipment* eq) {
     equipos.push_back(eq);
@@ -28,8 +27,10 @@ void Simulator::simular() {
         ordenarEquipos();
         aplicarMantenimiento();
 
-        std::cout << "------------------------" << std::endl;
+        archivo << "Total equipos: " << equipos.size() << std::endl;
         archivo << "------------------------" << std::endl;
+
+        std::cout << "------------------------" << std::endl;
     }
 
     archivo.close();
@@ -41,7 +42,6 @@ void Simulator::degradarEquipos() {
         eq->actualizarTiempoInactivo();
     }
 }
-
 void Simulator::calcularPrioridades() {
     for (auto& eq : equipos) {
         eq->calcularPrioridad();
@@ -63,6 +63,7 @@ void Simulator::quickSort(int low, int high) {
 }
 
 int Simulator::partition(int low, int high) {
+
     double pivot = equipos[high]->getPrioridad();
     int i = low - 1;
 
@@ -76,6 +77,14 @@ int Simulator::partition(int low, int high) {
     std::swap(equipos[i + 1], equipos[high]);
     return i + 1;
 }
+
+void Simulator::ordenarPorId() {
+    std::sort(equipos.begin(), equipos.end(),
+        [](Equipment* a, Equipment* b) {
+            return a->getId() < b->getId();
+        });
+}
+
 
 void Simulator::aplicarMantenimiento() {
 
@@ -95,6 +104,13 @@ void Simulator::aplicarMantenimiento() {
         }
 
         estrategia->aplicar(*eq);
+
+        CorrectiveMaintenance* cm = dynamic_cast<CorrectiveMaintenance*>(estrategia);
+        if (cm) {
+            archivo << "[Correctivo aplicado] ";
+        } else {
+            archivo << "[Preventivo aplicado] ";
+        }
 
         std::string linea = "Atendido: " + eq->getId() +
                             " | Prioridad: " + std::to_string(eq->getPrioridad());
